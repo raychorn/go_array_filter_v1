@@ -29,47 +29,88 @@ func getPerm(orig, p []int) []int {
 
 func usethis(items []int, opt options) bool {
 	j := 1
-	symbol := ""
-	nextsymbol := ""
+	//symbol := ""
+	//nextsymbol := ""
 	canusethis := 0
 	n := len(items)
 	for i:= 0; i < n; i++ {
-		if (i < (n-1)) {
-			nextitem := items[i+1]
-			if (nextsymbol == "S") {
-				if (nextitem > items[i]) {
-					canusethis--
-					continue
-				}
-			} else {
-				if (nextitem < items[i]) {
-					canusethis--
-					continue
-				}
-			}
-		}
-		// This could be optimized but you may wish to see how this state-machine works internally.
 		if (j % 2) == 1 {
 			if (opt.smalllarge) {
-				symbol = "S"
-				nextsymbol = "L"
+				//symbol = "S"
+				//nextsymbol = "L"
+				if (i < (n-1)) {
+					nextitem := items[i+1]
+					if (opt.verbose) {
+						msg := fmt.Sprintf("(S) %d - (L) %d", items[i], nextitem)
+						fmt.Print(msg + " ")
+					}
+					if (nextitem < items[i]) {
+						canusethis--
+						if (opt.verbose) {
+							fmt.Println("[-]")
+						}
+						continue
+					}
+				}
 			} else {
-				symbol = "L"
-				nextsymbol = "S"
+				//symbol = "L"
+				//nextsymbol = "S"
+				if (i < (n-1)) {
+					nextitem := items[i+1]
+					if (opt.verbose) {
+						msg := fmt.Sprintf("(L) %d - (S) %d", items[i], nextitem)
+						fmt.Print(msg + " ")
+					}
+					if (nextitem > items[i]) {
+						canusethis--
+						if (opt.verbose) {
+							fmt.Println("[-]")
+						}
+						continue
+					}
+				}
 			}
 		} else {
 			if (opt.smalllarge) {
-				symbol = "L"
-				nextsymbol = "S"
+				//symbol = "L"
+				//nextsymbol = "S"
+				if (i < (n-1)) {
+					nextitem := items[i+1]
+					if (opt.verbose) {
+						msg := fmt.Sprintf("(L) %d - (S) %d", items[i], nextitem)
+						fmt.Print(msg + " ")
+					}
+					if (nextitem > items[i]) {
+						canusethis--
+						if (opt.verbose) {
+							fmt.Println("[-]")
+						}
+						continue
+					}
+				}
 			} else {
-				symbol = "S"
-				nextsymbol = "L"
+				//symbol = "S"
+				//nextsymbol = "L"
+				if (i < (n-1)) {
+					nextitem := items[i+1]
+					if (opt.verbose) {
+						msg := fmt.Sprintf("(S) %d - (L) %d", items[i], nextitem)
+						fmt.Print(msg + " ")
+					}
+					if (nextitem < items[i]) {
+						canusethis--
+						if (opt.verbose) {
+							fmt.Println("[-]")
+						}
+						continue
+					}
+				}
 			}
 		}
-		if (opt.verbose) {
-			fmt.Print(fmt.Sprint(items[i]) + symbol + " ")
-		}
 		j++
+		if (opt.verbose) {
+			fmt.Println("[+]")
+		}
 		canusethis++
 	}
 	if (opt.verbose) {
@@ -88,6 +129,9 @@ func main() {
 	useitcount := 0
 	fmt.Print(orig)
 	fmt.Print(" --> ")
+	if (opts.verbose) {
+		fmt.Println()
+	}
     for p := make([]int, len(orig)); p[0] < len(p); nextPerm(p) {
 		theguess = getPerm(orig, p)
 		useit = usethis(theguess, opts)
