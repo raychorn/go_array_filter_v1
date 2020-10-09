@@ -29,15 +29,11 @@ func getPerm(orig, p []int) []int {
 
 func usethis(items []int, opt options) bool {
 	j := 1
-	//symbol := ""
-	//nextsymbol := ""
 	canusethis := 0
 	n := len(items)
 	for i:= 0; i < n; i++ {
 		if (j % 2) == 1 {
 			if (opt.smalllarge) {
-				//symbol = "S"
-				//nextsymbol = "L"
 				if (i < (n-1)) {
 					nextitem := items[i+1]
 					if (opt.verbose) {
@@ -53,8 +49,6 @@ func usethis(items []int, opt options) bool {
 					}
 				}
 			} else {
-				//symbol = "L"
-				//nextsymbol = "S"
 				if (i < (n-1)) {
 					nextitem := items[i+1]
 					if (opt.verbose) {
@@ -72,8 +66,6 @@ func usethis(items []int, opt options) bool {
 			}
 		} else {
 			if (opt.smalllarge) {
-				//symbol = "L"
-				//nextsymbol = "S"
 				if (i < (n-1)) {
 					nextitem := items[i+1]
 					if (opt.verbose) {
@@ -89,8 +81,6 @@ func usethis(items []int, opt options) bool {
 					}
 				}
 			} else {
-				//symbol = "S"
-				//nextsymbol = "L"
 				if (i < (n-1)) {
 					nextitem := items[i+1]
 					if (opt.verbose) {
