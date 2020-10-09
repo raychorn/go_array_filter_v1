@@ -48,6 +48,7 @@ func usethis(items []int, opt options) bool {
 				}
 			}
 		}
+		// This could be optimized but you may wish to see how this state-machine works internally.
 		if (j % 2) == 1 {
 			if (opt.smalllarge) {
 				symbol = "S"
