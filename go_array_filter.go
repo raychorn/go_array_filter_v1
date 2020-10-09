@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+	"strings"
+	"math/rand"
+)
 
 type options struct {
 	smalllarge bool		// pick small then large or vice-versa.
@@ -141,6 +146,22 @@ func compareArrays(a, b []int) bool {
 	return isok
 }
 
+func inArray(a int, b []int) bool {
+	isIn := true
+	if (len(b) == 0) {
+		isIn = false
+	}
+	if (isIn) {
+		for _, val := range b {
+			if (a != val) {
+				isIn = false
+				break
+			}
+		}
+	}
+	return isIn
+}
+
 func performTest(orig []int) [][]int {
 	opts := options{smalllarge: true, verbose: false}
 
@@ -183,7 +204,7 @@ func test1() {
     }
 }
 
-func main2() {
+func theMain() {
 	opts := options{smalllarge: true, verbose: false}
 
 	orig := []int{1, 7, 3, 9}
@@ -209,6 +230,51 @@ func main2() {
 	fmt.Println(" !!!")
 }
 
+func generateTests(numberOfTests int) {
+	/*
+	Produces the following for each randonly generated test sample:
+	tests := []test{
+        {input: []int{1, 7, 3, 9}, expected: [][]int{{1, 7, 3, 9}, {1, 9, 3, 7}, {7, 9, 1, 3}, {3, 7, 1, 9}, {3, 9, 1, 7}} }, 
+    }	
+	*/
+	fmt.Println("\ttests := []test{")
+	for ii := 0; ii < numberOfTests; ii++ {
+		s1 := rand.NewSource(time.Now().UnixNano())
+		r1 := rand.New(s1)
+		num := 0
+		sample := []int{}
+		for {
+			num = r1.Intn(9 - 1) + 1
+			if (num < 0) || (num > 9) {
+				panic("Check your logic, dude.")
+			}
+			if (!inArray(num, sample)) {
+				sample = append(sample, num)
+			}
+			//fmt.Println(fmt.Sprintf("sample[%d] = %d", len(sample), num))
+			if (len(sample) == 4) {
+				break
+			}
+		}
+		//fmt.Println(fmt.Sprintf(prettyPrintTheGuess(sample)))
+		results := performTest(sample)
+		sResults := ""
+		n := len(results)
+		for i, result := range results {
+			sResults += prettyPrintTheGuess(result)
+			if (i < n-1) {
+				sResults += ","
+			}
+		}
+		fmt.Printf("\t\t{input: []int%s, expected: [][]int{%s} },\n", prettyPrintTheGuess(sample), sResults)
+	}
+	fmt.Println("\t}")
+	fmt.Println(strings.Repeat("-", 30))
+	fmt.Println()
+}
+
 func main() {
-	test1()
+	//test1()
+	//theMain()
+	generateTests(2)
 }
